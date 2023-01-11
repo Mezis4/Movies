@@ -1,51 +1,38 @@
 package ru.netology.manager;
 
 import ru.netology.data.Poster;
+import ru.netology.repository.MoviesRepository;
 
 public class MoviesManager {
-    private Poster[] posters = new Poster[0];
-    private int postersAmount;
+    private MoviesRepository repo;
 
-    public MoviesManager() {
-        this.postersAmount = 10;
+    public MoviesManager(MoviesRepository repo) {
+        this.repo = repo;
     }
 
-    public MoviesManager(int postersAmount) {
-        this.postersAmount = postersAmount;
+    public void save(Poster posters) {
+        repo.save(posters);
     }
 
-    public Poster[] getPosters() {
-        return posters;
-    }
-
-    public void addMovie(Poster poster) {
-        Poster[] movies = new Poster[posters.length + 1];
-        for (int i = 0; i < posters.length; i++) {
-            movies[i] = posters[i];
-        }
-        movies[movies.length - 1] = poster;
-        posters = movies;
-    }
-
-    public Poster[] findAll() {
-        Poster[] all = new Poster[posters.length];
-        for (int i = 0; i < all.length; i++) {
-            all[i] = posters[i];
-        }
-        return all;
+    public void removeById(int id) {
+        repo.removeById(id);
     }
 
     public Poster[] findLast() {
-        int resultLength;
-        if (posters.length >= postersAmount) {
-            resultLength = postersAmount;
-        } else {
-            resultLength = posters.length;
+        Poster[] all = repo.getPosters();
+        Poster[] last = new Poster[all.length];
+        for (int i = 0; i < last.length; i++) {
+            last[i] = all[all.length - 1 - i];
         }
-        Poster[] result = new Poster[resultLength];
-        for (int i = 0; i < resultLength; i++) {
-            result[i] = posters[posters.length - 1 - i];
+        return last;
+    }
+
+    public Poster[] findAll() {
+        Poster[] all = repo.getPosters();
+        Poster[] amount = new Poster[all.length];
+        for (int i = 0; i < amount.length; i++) {
+            amount[i] = all[i];
         }
-        return result;
+        return amount;
     }
 }
