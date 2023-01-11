@@ -69,5 +69,4 @@ public class MoviesTest {
 
         Assertions.assertArrayEquals(expected, actual);
     }
-
 }
